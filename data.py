@@ -78,7 +78,9 @@ def process(set,images_path,labels,image_res=32):
     index=0
     newlabels={}
 
-
+    # with open('data.txt', 'w') as outfile:
+    #     json.dump(images_path, outfile)
+    # pdb.set_trace()
 
     data=np.empty((len(labels),image_res,image_res,3),'uint8')
     target=np.empty((len(labels),21,2),'float')
