@@ -61,7 +61,7 @@ if __name__ == '__main__':
     Joints = json.load(open("./annotation.json", "r"))
     names = Joints.keys()
     print(names)
-    random.shuffle(names)
+    random.shuffle(list(names))
     LeftJoints = {}
     RightJoints = {}
     for name in Joints:
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         canvas = cv2.imread("./Color/" + name[:-2] + ".jpg")
         tmp = []
         print(name)
-        for i in xrange(len(Joints[name])):
+        for i in range(len(Joints[name])):
             tmp.append([int(Joints[name][i][0]), int(Joints[name][i][1])])
         # print tmp
         canvas = draw_hand(canvas, tmp)
