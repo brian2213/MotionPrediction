@@ -66,8 +66,6 @@ def show_hand_sample_image():
 
 def process(set,images_path,labels):
     full_images_path=[get_image_path("Color", "%s.jpg" % (image[:-2])) for image in images_path]
-
-    # images = chain.from_iterable(load_images(full_images_path))
     images=load_images(full_images_path)
 
     labels = [labels[name] for name in images_path]
@@ -81,52 +79,27 @@ def process(set,images_path,labels):
     newlabels={}
     for image in images:
         label=labels[index]
-
-        # image = convert_depth(image)
-        # data_image[index], data_label[index], data_center[index] = normalize(image, label)
         newimage,newlabel,center =normalize(image, label)
         cv2.imwrite(os.path.join("/Volumes/8TB/個人文件/ics175/test", '%s.png'%(images_path[index])),newimage)
 
         newlabels[images_path[index]]=newlabel
         p.update(index)
         index+=1
-        
+
 
     pickle.dump(newlabels, open("/Volumes/8TB/個人文件/ics175/test/annotation.save",'wb') )
 
 def normalize(image, label):
     label = label.copy()
 
-
-    # label.ix[:, 'd'] /= 10.
-    # image = image / 10.
-
     center = label[9]
-
     label=np.array(label)
     label=label[:,[1,0]]
-
-    # pdb.set_trace()
-    # center.ix['d'] = label.ix[:, 'd'].median()
 
     bounds = bounding_box([center[1],center[0]], 525, 200).astype(int)
 
     image, label = clip(image, label, bounds)
-
-    # pdb.set_trace()
-
-    # label.ix[:, 'd'] -= center.ix['d']
-    # image -= center.ix['d']
-
-    # image = np.clip(image, -15, 15) / 15.0
-    # label.ix[:, 'd'] /= 15.0
-    # image, label = resize(image, label, (128, 128))
-    # pdb.set_trace()
-    # image = np.expand_dims(image, 0)
-    # label = np.expand_dims(label, 0)
     center=[center[1],center[0]]
-    # center=np.expand_dims(center,0)
-
 
     return image, label, center
 
@@ -137,22 +110,8 @@ def bounding_box(center, fx, size):
     bounding_box = np.array([[0, 0], [1, 1]], dtype='float')
     bounding_box -= 0.5
     bounding_box *= size
-    # bounding_box *= fx / center[0]
     bounding_box += center
-    # pdb.set_trace()
     return bounding_box
-
-
-# Resize an image to the specified dimensions, scaling its label accordingly
-def resize(image, label, dimensions):
-    # label.ix[:, ['v', 'u']] *= np.array(dimensions) / image.shape[:-1]
-    # plt.imshow(image)
-    # plt.show()
-    #
-    # pdb.set_trace()
-    # image = scipy.misc.imresize(np.squeeze(image), dimensions, 'bilinear', mode='F')
-
-    return image, label
 
 
 # Clip an image to the specified bounding box, translating its label accordingly
@@ -174,20 +133,7 @@ def clip(image, label, bounding_box):
     image = np.pad(image, padding, 'edge')
     image = image[slice(*bounding_box[:, 0]), slice(*bounding_box[:, 1])]
 
-    # cv2.imwrite(os.path.join("/Volumes/8TB/個人文件/ics175/test", '%s.png' % ("test")), image)
-
-    # plt.imshow(image)
-    # plt.show()
-    # pdb.set_trace()
     return image, label
 
 
 process('train',images,labels)
-# process('test')
-# demo_image = dataset['image/train'][0]
-# demo_label = dataset['label/train'][0]
-
-# plt.figure(figsize=(12, 12))
-# plt.imshow(demo_image.squeeze())
-# plt.plot(demo_label[::3], demo_label[1::3], 'wo')
-# plt.show()
