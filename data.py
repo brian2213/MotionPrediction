@@ -64,7 +64,7 @@ def show_hand_sample_image():
 
 # dataset = h5py.File(os.path.join("/Volumes/8TB/個人文件/ics175", 'dataset.hdf5'))
 
-def process(set,images_path,labels):
+def process(set,images_path,labels,image_res=32):
     full_images_path=[get_image_path("Color", "%s.jpg" % (image[:-2])) for image in images_path]
     images=load_images(full_images_path)
 
@@ -77,17 +77,39 @@ def process(set,images_path,labels):
     p = Progbar(len(labels))
     index=0
     newlabels={}
+
+
+
+    data=np.empty((len(labels),image_res,image_res,3),'uint8')
+    target=np.empty((len(labels),21,2),'float')
+    image_center=np.empty((len(labels),2),'float')
+
     for image in images:
         label=labels[index]
         newimage,newlabel,center =normalize(image, label)
-        cv2.imwrite(os.path.join("/Volumes/8TB/個人文件/ics175/test", '%s.png'%(images_path[index])),newimage)
 
-        newlabels[images_path[index]]=newlabel
+        newimage1, newlabel1=resize(newimage,newlabel,(image_res,image_res))
+
+        # cv2.imwrite(os.path.join("/Volumes/8TB/個人文件/ics175/test-32", '%s.png'%(images_path[index])),newimage)
+        # newlabels[images_path[index]]=newlabel
+
+        data[index]=newimage1
+        target[index]=newlabel1
+        image_center[index]=center
+
+
+
         p.update(index)
         index+=1
 
+    datas={}
+    datas['data']=data
+    datas['label']=target
+    datas['center']=image_center
+    pickle.dump(datas, open(os.path.join(Dataset, "test-" + str(image_res) + "data.save"), 'wb'))
 
-    pickle.dump(newlabels, open("/Volumes/8TB/個人文件/ics175/test/annotation.save",'wb') )
+
+    # pickle.dump(newlabels, open("/Volumes/8TB/個人文件/ics175/test-32/annotation.save",'wb') )
 
 def normalize(image, label):
     label = label.copy()
@@ -96,7 +118,7 @@ def normalize(image, label):
     label=np.array(label)
     label=label[:,[1,0]]
 
-    bounds = bounding_box([center[1],center[0]], 525, 200).astype(int)
+    bounds = bounding_box([center[1],center[0]], 525, 192).astype(int)
 
     image, label = clip(image, label, bounds)
     center=[center[1],center[0]]
@@ -134,6 +156,10 @@ def clip(image, label, bounding_box):
     image = image[slice(*bounding_box[:, 0]), slice(*bounding_box[:, 1])]
 
     return image, label
+def resize(image,label,dimension):
+    resized_image = cv2.resize(image, dimension)
+    label *= image.shape[0]/dimension[0]
+    return resized_image, label
 
-
+# process('train',images,labels,image_res=64)
 process('train',images,labels)
