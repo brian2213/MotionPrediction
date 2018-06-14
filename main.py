@@ -9,6 +9,7 @@ from keras.layers import *
 from keras.models import Sequential
 from keras.models import model_from_json
 from keras.optimizers import Adam
+import pdb
 
 np.random.seed(1234)
 def get_image_data(num_training=63000, num_validation=1000, num_test=10000):
@@ -206,7 +207,7 @@ def test_data():
 
     data_file_name = json.load(open("./Dataset/data_file_name.json", 'r'))
 
-    data = pickle.load(open("./Dataset/test-64data.save", 'rb'))
+    data = pickle.load(open("./Dataset/test-32data.save", 'rb'))
 
     images = data['data']
     labels = data['label']
@@ -225,6 +226,6 @@ def test_data():
 
 
 if __name__ == '__main__':
-    # test_data()
+    test_data()
     # main()
-    showModel()
+    # showModel()
