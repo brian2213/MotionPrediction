@@ -123,13 +123,13 @@ def main():
             activation='relu'
         ),
         Dense(
-            output_dim=42,
+            output_dim=21,
         ),
-        # Dense(
-        #     output_dim=42,
-        #     weights=(pca_eigenvectors, pca_mean),
-        #     trainable=False
-        # )
+        Dense(
+            output_dim=42,
+            # weights=(pca_eigenvectors, pca_mean),
+            trainable=False
+        )
     ])
 
     model.compile(
@@ -144,7 +144,7 @@ def main():
         X_train,
         y_train,
         batch_size=100,
-        epochs=30,
+        epochs=1,
     )
 
     # pickle.dump(model,open("keras.save",'wb'))
@@ -173,6 +173,10 @@ def showModel(num_training=49000, num_validation=1000, num_test=10000):
     # model=pickle.load(open("keras.save",'r'))
     # model=json.load(open("keras.save", 'r'))
 
+    config = tf.ConfigProto()
+    config.gpu_options.allow_growth = True
+    set_session(tf.Session(config=config))
+
     json_file = open('keras.save', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -185,6 +189,8 @@ def showModel(num_training=49000, num_validation=1000, num_test=10000):
     sample -= mean_image
     predictions = model.predict(sample)
     out = predictions[1].reshape(-1, 21, 2)
+
+    # model.evaluate(sample, y_train)
 
     print(out.shape)
     # pdb.set_trace()
@@ -220,5 +226,5 @@ def test_data():
 
 if __name__ == '__main__':
     # test_data()
-    main()
-    # showModel()
+    # main()
+    showModel()
