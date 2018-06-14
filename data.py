@@ -88,6 +88,7 @@ def process(set,images_path,labels,image_res=32):
 
     for image in images:
         label=labels[index]
+        pdb.set_trace()
         newimage,newlabel,center =normalize(image, label)
 
         newimage1, newlabel1=resize(newimage,newlabel,(image_res,image_res))
@@ -99,7 +100,7 @@ def process(set,images_path,labels,image_res=32):
         target[index]=newlabel1
         image_center[index]=center
 
-
+        pdb.set_trace()
 
         p.update(index)
         index+=1
@@ -108,7 +109,7 @@ def process(set,images_path,labels,image_res=32):
     datas['data']=data
     datas['label']=target
     datas['center']=image_center
-    pickle.dump(datas, open(os.path.join(Dataset, "test-" + str(image_res) + "data.save"), 'wb'))
+    pickle.dump(datas, open(os.path.join(Dataset, "test-" + str(image_res) + "data-tiny.save"), 'wb'))
 
 
     # pickle.dump(newlabels, open("/Volumes/8TB/個人文件/ics175/test-32/annotation.save",'wb') )
@@ -158,10 +159,12 @@ def clip(image, label, bounding_box):
     image = image[slice(*bounding_box[:, 0]), slice(*bounding_box[:, 1])]
 
     return image, label
+
 def resize(image,label,dimension):
     resized_image = cv2.resize(image, dimension)
     label *= image.shape[0]/dimension[0]
+    pdb.set_trace()
     return resized_image, label
 
 # process('train',images,labels,image_res=64)
-process('train',images,labels)
+process('train',images[:300],labels)

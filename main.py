@@ -188,16 +188,32 @@ def showModel(num_training=49000, num_validation=1000, num_test=10000):
     sample = np.array(X_train, 'float64')
     mean_image = np.mean(sample, axis=0)
     sample -= mean_image
-    predictions = model.predict(sample)
-    out = predictions[1].reshape(-1, 21, 2)
+    predictions_train = model.predict(sample).reshape(-1, 21, 2)
 
-    # model.evaluate(sample, y_train)
+    sample = np.array(X_val, 'float64')
+    mean_image = np.mean(sample, axis=0)
+    sample -= mean_image
+    predictions_val = model.predict(sample).reshape(-1, 21, 2)
 
-    print(out.shape)
+
+    print("train set accuracy: %s"%(calculate_error(y_train,predictions_train)))
+    print("train set accuracy: %s" % (calculate_error(y_val, predictions_val)))
+
+    out = predictions_train[1]
+    # print(out.shape)
     # pdb.set_trace()
     plt.imshow(X_train[1])
-    plt.scatter(out[0][:, 1], out[0][:, 0])
+    plt.scatter(out[:, 1], out[:, 0])
     plt.show()
+
+def calculate_error(label1,label2):
+
+    square_error = np.square(label1 - label2)
+
+    error_sum=np.sum(square_error)/square_error.size
+
+    return np.sqrt(error_sum)
+
 
 
 def test_data():
@@ -215,8 +231,8 @@ def test_data():
     print(images.shape)
     print(labels.shape)
 
-    index = 876
-
+    index = data_file_name.index('074_587_L')
+    print(1000)
     print(data_file_name[index])
 
     plt.imshow(cv2.cvtColor(images[index], cv2.COLOR_BGR2RGB))
