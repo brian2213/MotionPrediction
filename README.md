@@ -14,9 +14,15 @@ Files included:
 
   3. hand gesture recognition.ipynb
   	 This ipynb file is used for recognize the gestures in images
+   
+  4.hand gesture recognition2.ipynb
+     This ipynb file combine the pose estimation model with the gesture recgnition model to judge the current gesture in image.
 
-  4. data.py
+  5. data.py
      This script is used for data processing part, it can pick up the hands part out of the image and compress the images resolution from 1080P to 64 * 64 and 32 * 32.
 
-  5. Gesture.py 
+  6. gesture_label.py 
      This is a python script we use to label the picture with gesture status and stored into Json format.
+     
+  7. gesture_data.py
+     This is a python script we use to combine the processed image file with the gesture label json file to produce the data file for          gesture recognition training and testing.
