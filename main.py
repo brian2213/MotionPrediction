@@ -231,9 +231,9 @@ def test_data():
     print(images.shape)
     print(labels.shape)
 
-    index = data_file_name.index('074_587_L')
-    print(1000)
-    print(data_file_name[index])
+    index = data_file_name.index('089_2441_L')
+    print(index)
+    print(data_file_name[81015])
 
     plt.imshow(cv2.cvtColor(images[index], cv2.COLOR_BGR2RGB))
     # plt.imshow(images[index])
