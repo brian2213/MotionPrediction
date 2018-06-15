@@ -1,9 +1,6 @@
 # MotionPrediction
-Hand recognition with Motion Prediction
+Hand Pose Estimation and Hand recognition with Motion Prediction
 
-gesture-32data.save: https://drive.google.com/file/d/1klVnOfdhcI7j8raNxoBS6VehWIu_KsCp/view?usp=sharing
-test-32data.save: https://drive.google.com/open?id=1KOGMOF8CQX6EjPoj6HMT1kx8Gh6um-6S
-test-32data-fastward-onlylabel.save: https://drive.google.com/open?id=1gVuiHKFY_PkyVgGgOKvWD3XwNzYvDHYh
 
 Files included:
   1. hand pose estimation with prediction.ipynb
@@ -28,7 +25,14 @@ Files included:
      This is a python script we use to combine the processed image file with the gesture label json file to produce the data file for          gesture recognition training and testing.
      
 # To run the model
-You need to download all the *.save data files and put them in the same directory the *.ipynb files in.
+
+All the working scrips are in the Jupyter folder, please go straight to the Jupyter folder to execute  *.ipynb.
+
+You need to download below all the *.save data files and put them in the same directory the *.ipynb files in (/Jupyter).
+
+gesture-32data.save: https://drive.google.com/file/d/1klVnOfdhcI7j8raNxoBS6VehWIu_KsCp/view?usp=sharing
+test-32data.save: https://drive.google.com/open?id=1KOGMOF8CQX6EjPoj6HMT1kx8Gh6um-6S
+test-32data-fastward-onlylabel.save: https://drive.google.com/open?id=1gVuiHKFY_PkyVgGgOKvWD3XwNzYvDHYh
 
 We develop and debug our project on the Google Colab environment.
 
