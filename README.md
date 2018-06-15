@@ -26,3 +26,8 @@ Files included:
      
   7. gesture_data.py
      This is a python script we use to combine the processed image file with the gesture label json file to produce the data file for          gesture recognition training and testing.
+     
+# To run the model
+You need to download all the *.save data files and put them in the same directory the *.ipynb files in.
+We develop and debug our project on the Google Colab environment.
+All the file is written in python3
