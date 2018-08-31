@@ -1,6 +1,9 @@
 # MotionPrediction
 Hand Pose Estimation and Hand recognition with Motion Prediction
 
+**Author**: YiMing Chen<br /><br />
+**Author**: Hengchen Zhou<br /><br />
+**Author**: Mingyu Jiang<br /><br />
 
 ## Files
   - **hand pose estimation with prediction.ipynb**:
